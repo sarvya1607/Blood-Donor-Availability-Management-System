@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Login | BloodConnect{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+    <div class="container">
+
+        <div class="auth-card">
+
+            <div class="text-center mb-2">
+                <div style="font-size: 48px;">🩸</div>
+            </div>
+
+            <h1>Welcome Back!</h1>
+
+            <p class="auth-description">
+                Login to your BloodConnect account.
+            </p>
+
+            <form action="{{ url_for('login') }}" method="POST">
+
+                <!-- Email Address -->
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="Enter your registered email"
+                        maxlength="150"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password *</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Enter your password"
+                        maxlength="128"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <!-- Login Button -->
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-block"
+                >
+                    Login to Account
+                </button>
+
+            </form>
+
+            <!-- Register Link -->
+            <div class="form-footer">
+                Don't have an account?
+                <a href="{{ url_for('register') }}">
+                    Create Account
+                </a>
+            </div>
+
+            <!-- Home Link -->
+            <div class="text-center mt-2">
+                <a href="{{ url_for('index') }}">
+                    ← Back to Home
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

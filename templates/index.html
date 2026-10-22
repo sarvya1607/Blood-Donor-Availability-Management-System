@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+
+{% block title %}Home | BloodConnect{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO SECTION ================= -->
+
+<section class="hero">
+    <div class="container hero-content">
+
+        <div class="hero-text">
+
+            <h1 class="hero-blood-icon">
+                🩸
+            </h1>
+
+            <h1>
+                Donate Blood,<br>
+                <span>Save Lives.</span>
+            </h1>
+
+            <p>
+                Every drop of blood matters. Find blood donors near you,
+                register as a donor, and help someone in an emergency.
+                Your small step can save someone's life.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="{{ url_for('search_donor') }}"
+                   class="btn btn-primary">
+                    🔍 Find Blood Donors
+                </a>
+
+                {% if session.get('user_id') %}
+
+                    <a href="{{ url_for('donor_register') }}"
+                       class="btn btn-outline">
+                        ❤️ Become a Donor
+                    </a>
+
+                {% else %}
+
+                    <a href="{{ url_for('register') }}"
+                       class="btn btn-outline">
+                        ❤️ Become a Donor
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="hero-visual">
+
+            
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ================= STATISTICS SECTION ================= -->
+
+<section class="section">
+    <div class="container">
+
+        <h2 class="section-title">
+            Our Impact
+        </h2>
+
+        <p class="section-subtitle">
+            Every registered donor brings hope to someone in need.
+        </p>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">❤️</div>
+
+                <h3>{{ donor_count|default(0) }}</h3>
+
+                <p>Registered Blood Donors</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">🩸</div>
+
+                <h3>{{ request_count|default(0) }}</h3>
+
+                <p>Pending Blood Requests</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">🤝</div>
+
+                <h3>24/7</h3>
+
+                <p>Online Donor Search</p>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="section" style="background: #ffffff;">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            How BloodConnect Works
+        </h2>
+
+        <p class="section-subtitle">
+            Find a donor or register yourself in three simple steps.
+        </p>
+
+        <div class="card-grid">
+
+            <!-- STEP 1 -->
+
+            <div class="card">
+
+                <div class="feature-icon">
+                    👤
+                </div>
+
+                <h3>1. Create an Account</h3>
+
+                <p>
+                    Register on BloodConnect to access donor registration,
+                    blood request, and personal dashboard features.
+                </p>
+
+                <div class="mt-2">
+
+                    {% if session.get('user_id') %}
+
+                        <a href="{{ url_for('dashboard') }}"
+                           class="btn btn-outline">
+                            My Dashboard
+                        </a>
+
+                    {% else %}
+
+                        <a href="{{ url_for('register') }}"
+                           class="btn btn-outline">
+                            Register Now
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 2 -->
+
+            <div class="card">
+
+                <div class="feature-icon">
+                    🔍
+                </div>
+
+                <h3>2. Find Blood Donors</h3>
+
+                <p>
+                    Search registered donors using their blood group
+                    and city to identify potential donors near you.
+                </p>
+
+                <div class="mt-2">
+
+                    <a href="{{ url_for('search_donor') }}"
+                       class="btn btn-primary">
+                        Search Donors
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 3 -->
+
+            <div class="card">
+
+                <div class="feature-icon">
+                    ❤️
+                </div>
+
+                <h3>3. Help Save a Life</h3>
+
+                <p>
+                    Register as a donor or submit a blood request.
+                    Contact the donor and verify availability before
+                    making any arrangements.
+                </p>
+
+                <div class="mt-2">
+
+                    {% if session.get('user_id') %}
+
+                        <a href="{{ url_for('blood_request') }}"
+                           class="btn btn-outline">
+                            Request Blood
+                        </a>
+
+                    {% else %}
+
+                        <a href="{{ url_for('login') }}"
+                           class="btn btn-outline">
+                            Login to Continue
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= WHY CHOOSE US ================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Why Choose BloodConnect?
+        </h2>
+
+        <p class="section-subtitle">
+            A simple platform designed to connect potential blood
+            donors with people who need blood.
+        </p>
+
+        <div class="card-grid">
+
+            <div class="card">
+
+                <div class="feature-icon">
+                    ⚡
+                </div>
+
+                <h3>Quick Search</h3>
+
+                <p>
+                    Search for registered donors by blood group
+                    and location.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="feature-icon">
+                    🔒
+                </div>
+
+                <h3>Account Security</h3>
+
+                <p>
+                    User passwords are stored as hashes rather than
+                    plain-text passwords.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="feature-icon">
+                    📋
+                </div>
+
+                <h3>Request Tracking</h3>
+
+                <p>
+                    Logged-in users can submit blood requests and
+                    view their request status.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CALL TO ACTION ================= -->
+
+<section class="section" style="background: #fff1f2;">
+
+    <div class="container text-center">
+
+        <h2 class="section-title">
+            Be Someone's Hero Today!
+        </h2>
+
+        <p class="section-subtitle">
+            Your willingness to donate blood can make a meaningful
+            difference in someone's life.
+        </p>
+
+        <div class="hero-buttons" style="justify-content: center;">
+
+            {% if session.get('user_id') %}
+
+                <a href="{{ url_for('donor_register') }}"
+                   class="btn btn-primary">
+                    Register as a Donor
+                </a>
+
+            {% else %}
+
+                <a href="{{ url_for('register') }}"
+                   class="btn btn-primary">
+                    Join BloodConnect
+                </a>
+
+            {% endif %}
+
+            <a href="{{ url_for('search_donor') }}"
+               class="btn btn-outline">
+                Find Donors
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= IMPORTANT INFORMATION ================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="card">
+
+            <h3>⚠️ Important Information</h3>
+
+            <p>
+                BloodConnect is a donor availability management
+                platform for this academic project. A donor listing
+                does not guarantee current availability or medical
+                eligibility. Always confirm blood availability,
+                compatibility, and eligibility with a qualified
+                healthcare professional or authorized blood bank.
+                For emergencies, contact your local emergency
+                services or hospital.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

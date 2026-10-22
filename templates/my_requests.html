@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}My Blood Requests | BloodConnect{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="section-heading">
+            <h1>📋 My Blood Requests</h1>
+            <p>
+                View your blood requests and check their current status.
+            </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="dashboard-actions">
+            <a href="{{ url_for('blood_request') }}"
+               class="btn btn-primary">
+                + New Blood Request
+            </a>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="btn btn-secondary">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Requests Table -->
+        <div class="card">
+            <div class="card-body">
+
+                {% if requests %}
+
+                    <div class="table-responsive">
+
+                        <table class="data-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Patient Name</th>
+                                    <th>Blood Group</th>
+                                    <th>Units</th>
+                                    <th>Hospital</th>
+                                    <th>City</th>
+                                    <th>Urgency</th>
+                                    <th>Request Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for item in requests %}
+
+                                    <tr>
+                                        <td>#{{ item.request_id }}</td>
+
+                                        <td>
+                                            {{ item.patient_name }}
+                                        </td>
+
+                                        <td>
+                                            <span class="badge badge-danger">
+                                                {{ item.blood_group }}
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            {{ item.units_required }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.hospital_name }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.city }}
+                                        </td>
+
+                                        <td>
+                                            {% if item.urgency == 'Emergency' %}
+                                                <span class="badge badge-danger">
+                                                    Emergency
+                                                </span>
+                                            {% elif item.urgency == 'Urgent' %}
+                                                <span class="badge badge-warning">
+                                                    Urgent
+                                                </span>
+                                            {% else %}
+                                                <span class="badge badge-info">
+                                                    Normal
+                                                </span>
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            {% if item.created_at %}
+                                                {{ item.created_at.strftime('%d-%m-%Y') }}
+                                            {% else %}
+                                                —
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            {% if item.status == 'Approved' %}
+                                                <span class="badge badge-success">
+                                                    Approved
+                                                </span>
+
+                                            {% elif item.status == 'Completed' %}
+                                                <span class="badge badge-success">
+                                                    Completed
+                                                </span>
+
+                                            {% elif item.status == 'Rejected' %}
+                                                <span class="badge badge-danger">
+                                                    Rejected
+                                                </span>
+
+                                            {% else %}
+                                                <span class="badge badge-warning">
+                                                    Pending
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% else %}
+
+                    <!-- Empty State -->
+                    <div class="empty-state">
+
+                        <div style="font-size: 48px;">🩸</div>
+
+                        <h2>No Blood Requests Yet</h2>
+
+                        <p>
+                            You have not submitted any blood requests.
+                            Create a request if a patient needs blood.
+                        </p>
+
+                        <a href="{{ url_for('blood_request') }}"
+                           class="btn btn-primary">
+                            Create Blood Request
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+        </div>
+
+        <!-- Information -->
+        <div class="card dashboard-info">
+            <div class="card-body">
+
+                <h3>ℹ️ Request Status Information</h3>
+
+                <p>
+                    <strong>Pending:</strong>
+                    Your request is waiting for review.
+                </p>
+
+                <p>
+                    <strong>Approved:</strong>
+                    Your request has been approved by the administrator.
+                </p>
+
+                <p>
+                    <strong>Completed:</strong>
+                    The request has been marked as completed.
+                </p>
+
+                <p>
+                    <strong>Rejected:</strong>
+                    The request has been rejected by the administrator.
+                </p>
+
+                <p>
+                    For urgent blood requirements, contact a hospital
+                    or licensed blood bank directly.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | BloodConnect{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="container">
+
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>🛡️ Admin Dashboard</h1>
+                <p>Manage donors and blood requests.</p>
+            </div>
+
+            <a href="{{ url_for('logout') }}"
+               class="btn btn-outline"
+               data-confirm="Are you sure you want to logout?">
+                Logout
+            </a>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon">🩸</div>
+                <h3>Total Donors</h3>
+                <p class="stat-number">
+                    {{ donor_count|default(0) }}
+                </p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <h3>Total Requests</h3>
+                <p class="stat-number">
+                    {{ request_count|default(0) }}
+                </p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <h3>Pending Requests</h3>
+                <p class="stat-number">
+                    {{ pending_count|default(0) }}
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Blood Requests -->
+        <div class="card admin-section">
+
+            <div class="card-body">
+
+                <h2>📋 Blood Requests Management</h2>
+
+                <p class="text-muted">
+                    Review requests and update their status.
+                </p>
+
+                {% if requests %}
+
+                    <div class="table-responsive">
+
+                        <table class="data-table">
+
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Patient</th>
+                                    <th>Blood Group</th>
+                                    <th>Units</th>
+                                    <th>Hospital</th>
+                                    <th>City</th>
+                                    <th>Contact</th>
+                                    <th>Urgency</th>
+                                    <th>Status</th>
+                                    <th>Update Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for item in requests %}
+
+                                    <tr>
+                                        <td>#{{ item.request_id }}</td>
+
+                                        <td>
+                                            {{ item.patient_name }}
+                                        </td>
+
+                                        <td>
+                                            <span class="badge badge-danger">
+                                                {{ item.blood_group }}
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            {{ item.units_required }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.hospital_name }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.city }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.contact_phone }}
+                                        </td>
+
+                                        <td>
+                                            {% if item.urgency == 'Emergency' %}
+                                                <span class="badge badge-danger">
+                                                    Emergency
+                                                </span>
+                                            {% elif item.urgency == 'Urgent' %}
+                                                <span class="badge badge-warning">
+                                                    Urgent
+                                                </span>
+                                            {% else %}
+                                                <span class="badge badge-info">
+                                                    Normal
+                                                </span>
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            {{ item.status }}
+                                        </td>
+
+                                        <td>
+
+                                            <form
+                                                action="{{ url_for('update_request_status', request_id=item.request_id) }}"
+                                                method="POST"
+                                                class="status-form"
+                                            >
+
+                                                <select
+                                                    name="status"
+                                                    class="form-control"
+                                                    aria-label="Select request status"
+                                                    required
+                                                >
+                                                    <option value="Pending"
+                                                        {% if item.status == 'Pending' %}selected{% endif %}>
+                                                        Pending
+                                                    </option>
+
+                                                    <option value="Approved"
+                                                        {% if item.status == 'Approved' %}selected{% endif %}>
+                                                        Approved
+                                                    </option>
+
+                                                    <option value="Completed"
+                                                        {% if item.status == 'Completed' %}selected{% endif %}>
+                                                        Completed
+                                                    </option>
+
+                                                    <option value="Rejected"
+                                                        {% if item.status == 'Rejected' %}selected{% endif %}>
+                                                        Rejected
+                                                    </option>
+                                                </select>
+
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-primary btn-small"
+                                                >
+                                                    Update
+                                                </button>
+
+                                            </form>
+
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="empty-state">
+                        <div style="font-size: 42px;">📋</div>
+
+                        <h3>No Blood Requests</h3>
+
+                        <p>
+                            No blood requests have been submitted yet.
+                        </p>
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- Registered Donors -->
+        <div class="card admin-section">
+
+            <div class="card-body">
+
+                <h2>🩸 Registered Blood Donors</h2>
+
+                <p class="text-muted">
+                    View registered donor information.
+                </p>
+
+                {% if donors %}
+
+                    <div class="table-responsive">
+
+                        <table class="data-table">
+
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Donor Name</th>
+                                    <th>Blood Group</th>
+                                    <th>Age</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Availability</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for donor in donors %}
+
+                                    <tr>
+                                        <td>#{{ donor.donor_id }}</td>
+
+                                        <td>
+                                            {{ donor.full_name }}
+                                        </td>
+
+                                        <td>
+                                            <span class="badge badge-danger">
+                                                {{ donor.blood_group }}
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            {{ donor.age }}
+                                        </td>
+
+                                        <td>
+                                            {{ donor.city }}
+                                        </td>
+
+                                        <td>
+                                            {{ donor.state }}
+                                        </td>
+
+                                        <td>
+                                            {% if donor.is_available %}
+                                                <span class="badge badge-success">
+                                                    Available
+                                                </span>
+                                            {% else %}
+                                                <span class="badge badge-warning">
+                                                    Not Available
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="empty-state">
+                        <div style="font-size: 42px;">🩸</div>
+
+                        <h3>No Registered Donors</h3>
+
+                        <p>
+                            No users have registered as blood donors yet.
+                        </p>
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- Admin Information -->
+        <div class="card dashboard-info">
+            <div class="card-body">
+
+                <h3>🔐 Administrator Responsibilities</h3>
+
+                <ul>
+                    <li>Review submitted blood requests.</li>
+                    <li>Update request status accurately.</li>
+                    <li>Protect donor and patient information.</li>
+                    <li>Verify information before taking action.</li>
+                </ul>
+
+                <p>
+                    Changing a request status does not itself guarantee
+                    that blood is available or that a transfusion can occur.
+                    Medical decisions must be made by qualified professionals.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

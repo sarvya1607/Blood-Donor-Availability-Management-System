@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us | BloodConnect{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="container">
+
+        <!-- Page Heading -->
+        <div class="section-heading">
+            <h1>📞 Contact Us</h1>
+
+            <p>
+                Have a question or suggestion?
+                Send us a message.
+            </p>
+        </div>
+
+        <div class="contact-grid">
+
+            <!-- Contact Information -->
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h2>Get in Touch</h2>
+
+                    <p>
+                        We welcome your questions, feedback and suggestions
+                        about the BloodConnect platform.
+                    </p>
+
+                    <hr>
+
+                    <h3>🩸 BloodConnect</h3>
+
+                    <p>
+                        A Blood Donor Availability Management System
+                        designed to help people find registered blood donors.
+                    </p>
+
+                    <div class="dashboard-info">
+
+                        <h3>⚠️ Need Blood Urgently?</h3>
+
+                        <p>
+                            Please contact a hospital or licensed blood bank
+                            directly for urgent blood requirements.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Contact Form -->
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h2>Send Us a Message</h2>
+
+                    <form
+                        action="{{ url_for('contact') }}"
+                        method="POST"
+                    >
+
+                        <!-- Full Name -->
+                        <div class="form-group">
+
+                            <label for="full_name">
+                                Full Name *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="full_name"
+                                name="full_name"
+                                class="form-control"
+                                placeholder="Enter your full name"
+                                minlength="2"
+                                maxlength="100"
+                                autocomplete="name"
+                                required
+                            >
+
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email Address *
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="Enter your email address"
+                                maxlength="150"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="form-group">
+
+                            <label for="subject">
+                                Subject *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                class="form-control"
+                                placeholder="Enter message subject"
+                                minlength="3"
+                                maxlength="150"
+                                required
+                            >
+
+                        </div>
+
+                        <!-- Message -->
+                        <div class="form-group">
+
+                            <label for="message">
+                                Your Message *
+                            </label>
+
+                            <textarea
+                                id="message"
+                                name="message"
+                                class="form-control"
+                                rows="6"
+                                placeholder="Write your message here..."
+                                minlength="10"
+                                maxlength="2000"
+                                required
+                            ></textarea>
+
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-block"
+                        >
+                            Send Message
+                        </button>
+
+                    </form>
+
+                    <!-- Back to Home -->
+                    <div class="form-footer">
+
+                        <a href="{{ url_for('index') }}">
+                            ← Back to Home
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

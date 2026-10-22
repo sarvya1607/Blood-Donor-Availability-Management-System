@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+
+{% block title %}Find Blood Donors | BloodConnect{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="section-heading">
+            <h1>🩸 Find Blood Donors</h1>
+            <p>
+                Search for registered blood donors by blood group and city.
+            </p>
+        </div>
+
+        <!-- Search Form -->
+        <div class="search-panel">
+
+            <form
+                id="searchDonorForm"
+                action="{{ url_for('search_donor') }}"
+                method="POST"
+            >
+
+                <div class="search-grid">
+
+                    <!-- Blood Group -->
+                    <div class="form-group">
+                        <label for="blood_group">Blood Group</label>
+
+                        <select
+                            id="blood_group"
+                            name="blood_group"
+                            class="form-control"
+                        >
+                            <option value="">All Blood Groups</option>
+
+                            <option value="A+"
+                                {% if selected_blood_group == 'A+' %}selected{% endif %}>
+                                A+
+                            </option>
+
+                            <option value="A-"
+                                {% if selected_blood_group == 'A-' %}selected{% endif %}>
+                                A-
+                            </option>
+
+                            <option value="B+"
+                                {% if selected_blood_group == 'B+' %}selected{% endif %}>
+                                B+
+                            </option>
+
+                            <option value="B-"
+                                {% if selected_blood_group == 'B-' %}selected{% endif %}>
+                                B-
+                            </option>
+
+                            <option value="AB+"
+                                {% if selected_blood_group == 'AB+' %}selected{% endif %}>
+                                AB+
+                            </option>
+
+                            <option value="AB-"
+                                {% if selected_blood_group == 'AB-' %}selected{% endif %}>
+                                AB-
+                            </option>
+
+                            <option value="O+"
+                                {% if selected_blood_group == 'O+' %}selected{% endif %}>
+                                O+
+                            </option>
+
+                            <option value="O-"
+                                {% if selected_blood_group == 'O-' %}selected{% endif %}>
+                                O-
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- City -->
+                    <div class="form-group">
+                        <label for="city">City / Village</label>
+
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            class="form-control"
+                            placeholder="Enter city or village"
+                            maxlength="100"
+                            value="{{ selected_city|default('') }}"
+                        >
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+                <div class="search-actions">
+
+                    <button type="submit" class="btn btn-primary">
+                        🔍 Search Donors
+                    </button>
+
+                    <a
+                        href="{{ url_for('search_donor') }}"
+                        class="btn btn-secondary"
+                    >
+                        Reset
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <!-- Search Results -->
+        <div class="results-section">
+
+            <h2>Search Results</h2>
+
+            {% if donors %}
+
+                <p class="text-muted">
+                    Registered donors matching your search.
+                </p>
+
+                <div class="table-responsive">
+
+                    <table class="data-table">
+
+                        <thead>
+                            <tr>
+                                <th>Sr. No.</th>
+                                <th>Donor Name</th>
+                                <th>Blood Group</th>
+                                <th>Age</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Contact</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for donor in donors %}
+
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+
+                                    <td>
+                                        {{ donor.full_name }}
+                                    </td>
+
+                                    <td>
+                                        <span class="badge badge-danger">
+                                            {{ donor.blood_group }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        {{ donor.age }}
+                                    </td>
+
+                                    <td>
+                                        {{ donor.city }}
+                                    </td>
+
+                                    <td>
+                                        {{ donor.state }}
+                                    </td>
+
+                                    <td>
+                                        <a href="tel:{{ donor.phone }}"
+                                           class="btn btn-small btn-primary">
+                                            Call Donor
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% elif searched %}
+
+                <div class="empty-state">
+                    <div style="font-size: 42px;">🔍</div>
+
+                    <h3>No Donors Found</h3>
+
+                    <p>
+                        No registered available donors were found
+                        for your selected search criteria.
+                    </p>
+
+                    <p>
+                        Try another blood group or city.
+                    </p>
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+                    <div style="font-size: 42px;">🩸</div>
+
+                    <h3>Find a Blood Donor</h3>
+
+                    <p>
+                        Select a blood group and enter a city to
+                        search for registered donors.
+                    </p>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <!-- Important Note -->
+        <div class="card dashboard-info">
+            <div class="card-body">
+
+                <h3>⚠️ Important Information</h3>
+
+                <p>
+                    Search results show registered donors who have
+                    marked themselves as available for contact.
+                    Availability does not guarantee immediate donation.
+                </p>
+
+                <p>
+                    For urgent blood requirements, contact a hospital
+                    or licensed blood bank. Confirm donor eligibility
+                    and blood compatibility with qualified medical staff.
+                </p>
+
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="text-center mt-2">
+            <a href="{{ url_for('dashboard') }}"
+               class="btn btn-secondary">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}My Dashboard | BloodConnect{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="container">
+
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>My Dashboard</h1>
+                <p>Welcome to your BloodConnect account.</p>
+            </div>
+
+            <a href="{{ url_for('logout') }}"
+               class="btn btn-outline"
+               data-confirm="Are you sure you want to logout?">
+                Logout
+            </a>
+        </div>
+
+        <!-- Welcome Card -->
+        <div class="card dashboard-welcome">
+            <div class="card-body">
+                <h2>Hello, {{ session.get('full_name', 'User') }}! 👋</h2>
+
+                <p>
+                    Welcome to BloodConnect. You can register as a donor,
+                    search for blood donors, or request blood from here.
+                </p>
+            </div>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="card-grid dashboard-grid">
+
+            <!-- Become a Donor -->
+            <div class="card dashboard-card">
+                <div class="card-icon">🩸</div>
+
+                <h3>Become a Donor</h3>
+
+                <p>
+                    Register your blood group and contact details
+                    to help patients in need.
+                </p>
+
+                <a href="{{ url_for('donor_register') }}"
+                   class="btn btn-primary">
+                    Register as Donor
+                </a>
+            </div>
+
+            <!-- Search Donors -->
+            <div class="card dashboard-card">
+                <div class="card-icon">🔍</div>
+
+                <h3>Find Blood Donors</h3>
+
+                <p>
+                    Search for available blood donors by blood group
+                    and city.
+                </p>
+
+                <a href="{{ url_for('search_donor') }}"
+                   class="btn btn-primary">
+                    Search Donors
+                </a>
+            </div>
+
+            <!-- Blood Request -->
+            <div class="card dashboard-card">
+                <div class="card-icon">🏥</div>
+
+                <h3>Request Blood</h3>
+
+                <p>
+                    Submit a blood request for a patient who needs
+                    blood urgently.
+                </p>
+
+                <a href="{{ url_for('blood_request') }}"
+                   class="btn btn-primary">
+                    Request Blood
+                </a>
+            </div>
+
+            <!-- My Requests -->
+            <div class="card dashboard-card">
+                <div class="card-icon">📋</div>
+
+                <h3>My Blood Requests</h3>
+
+                <p>
+                    View your submitted blood requests and check
+                    their current status.
+                </p>
+
+                <a href="{{ url_for('my_requests') }}"
+                   class="btn btn-primary">
+                    View My Requests
+                </a>
+            </div>
+
+            <!-- Home -->
+            <div class="card dashboard-card">
+                <div class="card-icon">🏠</div>
+
+                <h3>Home Page</h3>
+
+                <p>
+                    Return to the BloodConnect home page and
+                    explore the website.
+                </p>
+
+                <a href="{{ url_for('index') }}"
+                   class="btn btn-secondary">
+                    Go to Home
+                </a>
+            </div>
+
+            <!-- Contact -->
+            <div class="card dashboard-card">
+                <div class="card-icon">📞</div>
+
+                <h3>Contact Us</h3>
+
+                <p>
+                    Have a question or need help? Contact the
+                    BloodConnect team.
+                </p>
+
+                <a href="{{ url_for('contact') }}"
+                   class="btn btn-secondary">
+                    Contact Us
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Important Information -->
+        <div class="card dashboard-info">
+            <div class="card-body">
+                <h3>❤️ Important Information</h3>
+
+                <p>
+                    Blood donation eligibility depends on your health
+                    and applicable medical guidelines. Please consult
+                    qualified medical professionals before donating.
+                </p>
+
+                <p>
+                    If someone needs blood urgently, contact a hospital
+                    or blood bank directly as well.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

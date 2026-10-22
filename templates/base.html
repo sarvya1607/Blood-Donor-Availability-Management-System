@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Blood Donor Management System{% endblock %}</title>
+
+    <meta name="description"
+          content="Blood Donor Availability Management System - Find blood donors by blood group and location.">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"
+            defer></script>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="site-header">
+
+        <nav class="navbar container">
+
+            <a href="{{ url_for('index') }}" class="brand">
+                <span class="brand-icon">🩸</span>
+
+                <span class="brand-text">
+                    <strong>BloodConnect</strong>
+                    <small>Donor Availability System</small>
+                </span>
+            </a>
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                type="button"
+                aria-label="Toggle navigation"
+                aria-expanded="false"
+                aria-controls="navLinks">
+
+                ☰
+
+            </button>
+
+            <div class="nav-links" id="navLinks">
+
+                <a href="{{ url_for('index') }}"
+                   class="nav-link">
+                    Home
+                </a>
+
+                <a href="{{ url_for('search_donor') }}"
+                   class="nav-link">
+                    Find Donors
+                </a>
+
+                {% if session.get('user_id') %}
+
+                    <a href="{{ url_for('dashboard') }}"
+                       class="nav-link">
+                        Dashboard
+                    </a>
+
+                    <a href="{{ url_for('donor_register') }}"
+                       class="nav-link">
+                        Become a Donor
+                    </a>
+
+                    <a href="{{ url_for('blood_request') }}"
+                       class="nav-link">
+                        Blood Request
+                    </a>
+
+                    <a href="{{ url_for('my_requests') }}"
+                       class="nav-link">
+                        My Requests
+                    </a>
+
+                    <a href="{{ url_for('logout') }}"
+                       class="btn btn-outline btn-small">
+                        Logout
+                    </a>
+
+                {% elif session.get('admin_id') %}
+
+                    <a href="{{ url_for('admin_dashboard') }}"
+                       class="nav-link">
+                        Admin Dashboard
+                    </a>
+
+                    <a href="{{ url_for('logout') }}"
+                       class="btn btn-outline btn-small">
+                        Logout
+                    </a>
+
+                {% else %}
+
+                    <a href="{{ url_for('register') }}"
+                       class="nav-link">
+                        Register
+                    </a>
+
+                    <a href="{{ url_for('login') }}"
+                       class="btn btn-primary btn-small">
+                        Login
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= FLASH MESSAGES ================= -->
+
+    <main class="main-content">
+
+        <div class="container">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    <div class="flash-container">
+
+                        {% for category, message in messages %}
+
+                            <div class="flash-message flash-{{ category }}"
+                                 role="alert">
+
+                                <span>{{ message }}</span>
+
+                                <button
+                                    type="button"
+                                    class="flash-close"
+                                    aria-label="Close message">
+                                    &times;
+                                </button>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+        </div>
+
+
+        <!-- ================= PAGE CONTENT ================= -->
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="site-footer">
+
+        <div class="container footer-content">
+
+            <div class="footer-brand">
+
+                <h3>🩸 BloodConnect</h3>
+
+                <p>
+                    Connecting blood donors with people in need.
+                    Every donation can make a difference.
+                </p>
+
+            </div>
+
+            <div class="footer-links">
+
+                <h4>Quick Links</h4>
+
+                <a href="{{ url_for('index') }}">Home</a>
+
+                <a href="{{ url_for('search_donor') }}">
+                    Find Donors
+                </a>
+
+                <a href="{{ url_for('contact') }}">
+                    Contact Us
+                </a>
+
+                <a href="{{ url_for('admin_login') }}">
+                    Admin Login
+                </a>
+
+            </div>
+
+            <div class="footer-note">
+
+                <h4>Important Note</h4>
+
+                <p>
+                    Donor listings are not confirmation of blood availability.
+                    Always verify availability and medical eligibility with
+                    the treating hospital or blood bank.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <p>
+                &copy; {{ 2026 }} BloodConnect.
+                BCA Mini Project.
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

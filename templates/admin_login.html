@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login | BloodConnect{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+    <div class="container">
+
+        <div class="auth-card">
+
+            <!-- Admin Icon -->
+            <div class="text-center mb-2">
+                <div style="font-size: 48px;">🔐</div>
+            </div>
+
+            <h1>Admin Login</h1>
+
+            <p class="auth-description">
+                Sign in to manage BloodConnect.
+            </p>
+
+            <!-- Admin Login Form -->
+            <form
+                action="{{ url_for('admin_login') }}"
+                method="POST"
+            >
+
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username">Admin Username *</label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="form-control"
+                        placeholder="Enter admin username"
+                        maxlength="100"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Admin Password *</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Enter admin password"
+                        maxlength="128"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <!-- Login Button -->
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-block"
+                >
+                    Login as Admin
+                </button>
+
+            </form>
+
+            <!-- Home Link -->
+            <div class="form-footer">
+                <a href="{{ url_for('index') }}">
+                    ← Back to Home
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Security Information -->
+        <div class="card dashboard-info">
+            <div class="card-body">
+
+                <h3>🔒 Security Notice</h3>
+
+                <p>
+                    This page is intended only for authorized administrators.
+                    Do not share your administrator credentials with anyone.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
